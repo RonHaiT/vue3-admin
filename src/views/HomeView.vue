@@ -1,30 +1,27 @@
-<script setup lang="ts">
-import MyUpload from "@/components/MyUpload.vue";
-import { message } from "ant-design-vue";
-const showMsg = () => {
-  message.warning("提示信息");
-};
-
-const info = () => {
-  message.success("Hello, success");
-};
-</script>
+<script setup lang="ts"></script>
 <template>
-  <div class="main">
-    <MyUpload />
-    <a-button type="primary" @click="showMsg">提示信息</a-button>
-    <hr />
-    <a-button type="primary" @click="info">success</a-button>
-  </div>
+  <header class="header">
+    <RouterLink to="/msg">antdv消息提示</RouterLink>
+    <RouterLink to="/upload">上传组件</RouterLink>
+  </header>
 </template>
 
 <style scoped lang="less">
-.main {
-  width: 100%;
-  height: 500px;
+.header {
+  width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
+  gap: 30px;
+  a {
+    height: 50px;
+    padding: 0 10px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #acacac;
+  }
 }
 </style>

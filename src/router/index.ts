@@ -9,6 +9,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+    {
+      path: '/msg',
+      name: 'message',
+      component: () => import('../views/antdv/Message.vue'),
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: () => import('../views/UploadView.vue'),
+    },
     // {
     //   path: '/about',
     //   name: 'about',
