@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MyUpload from "@/components/MyUpload.vue";
+import MyUpload from "@/components/upload/MyUpload.vue";
 </script>
 <template>
   <div class="main">

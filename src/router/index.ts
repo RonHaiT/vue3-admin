@@ -19,6 +19,11 @@ const router = createRouter({
       name: 'upload',
       component: () => import('../views/UploadView.vue'),
     },
+    {
+      path: '/Dropdown',
+      name: 'Dropdown',
+      component: () => import('../views/Dropdown.vue'),
+    },
     // {
     //   path: '/about',
     //   name: 'about',
