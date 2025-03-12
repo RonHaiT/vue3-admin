@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { qiNiuToken } from "@/http/apis/match";
+import { getUploadToken } from "~/http/apis/match";
 import * as qiniu from "qiniu-js";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import type { UploadProps, UploadChangeParam } from "ant-design-vue";
-import cardZM from "@/assets/images/zm.jpg";
-import cardBM from "@/assets/images/bm.jpg";
+import { Upload } from "ant-design-vue";
+import cardZM from "~/assets/image/zm.jpg";
+import cardBM from "~/assets/image/bm.jpg";
 import CutImageModal from "./CutImageModal.vue";
 import type { UploadFile } from "ant-design-vue";
 const props = defineProps({
@@ -12,13 +13,16 @@ const props = defineProps({
   disabled: { type: Boolean, default: false }, //是否禁止上传
   width: { type: Number, default: 100 }, //显示的宽
   height: { type: Number, default: 100 }, //显示的高
+  cutWidth: { type: Number, default: 500 }, //裁剪区域宽
+  cutHeight: { type: Number, default: 500 }, //裁剪区域高
   cardType: { type: Number, default: 1 }, //1.身份证正面  2.身份证背面
   uploadType: { type: String, default: "image" }, //上传类型 image图片 file文件 card身份证
   cutImg: { type: Boolean, default: true }, // 是否要裁剪图片
   accept: { type: Array, default: () => ["image/*"] }, //处理的类型
+  action: { type: String, default: "" }, //处理的类型
   listFile: { type: Array as () => UploadFile[], default: () => [] },
 });
-const emit = defineEmits(["imageSuccess"]);
+const emit = defineEmits(["imageSuccess", "imageRemove"]);
 const acceptJoin = computed(() => {
   return props.accept.join(", .");
 });
@@ -124,11 +128,23 @@ const handleClick = () => {
 // 删除文件
 const handleRemove = (fileObj, index: number) => {
   fileList.value = fileList.value?.filter((_, i) => i !== index);
+  emit("imageRemove");
 };
+
 // 上传文件
-const uploadImage = ({ file, fileList }: UploadChangeParam) => {
-  if (file.status === "done") {
-    uploadQiNiu(file.originFileObj as File);
+const uploadImage = (file) => {
+  try {
+    uploadQiNiu(file.file as File);
+  } catch (error) {
+    message.error("上传失败");
+  }
+};
+
+// 上传前检测图片文件的大小
+const beforeUpload: UploadProps["beforeUpload"] = (file) => {
+  if (file.type.startsWith("image/") && file.size > 2 * 1024 * 1024) {
+    message.error("上传失败，请检查文件大小，文件大小请控制在2M以内");
+    return Upload.LIST_IGNORE;
   }
 };
 
@@ -209,6 +225,7 @@ const getQiNiuToken = async () => {
         :maxCount="maxCount"
         :openFileDialogOnClick="false"
         :accept="acceptJoin"
+        :customRequest="uploadImage"
         :style="{
           width: width + 'px !important',
           height: height + 'px !important',
@@ -260,10 +277,11 @@ const getQiNiuToken = async () => {
       <a-upload
         v-if="fileList.length < maxCount"
         list-type="picture-card"
+        :customRequest="uploadImage"
         :disabled="disabled"
         :maxCount="maxCount"
         :accept="acceptJoin"
-        @change="uploadImage"
+        :beforeUpload="beforeUpload"
         :style="{
           width: width + 'px !important',
           height: height + 'px !important',
@@ -295,6 +313,8 @@ const getQiNiuToken = async () => {
       @uploadQiNiu="uploadQiNiu"
       :uploadType="uploadType"
       :accept="acceptJoin"
+      :cutWidth="cutWidth"
+      :cutHeight="cutHeight"
     />
   </div>
 </template>
