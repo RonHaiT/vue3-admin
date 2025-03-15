@@ -88,7 +88,19 @@ const customRequest = async (options: any) => {
       canvas.width = width;
       canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
-
+      // 获取图像数据，并处理透明部分为白色
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i + 3] < 128) {
+          // alpha < 128 (半透明)
+          data[i] = 255; // R
+          data[i + 1] = 255; // G
+          data[i + 2] = 255; // B
+          data[i + 3] = 255; // A (不透明)
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
       // 导出缩放后的图片为 Blob 对象
       canvas.toBlob((blob) => {
         if (blob) {
@@ -318,7 +330,8 @@ const previewFile: UploadProps["previewFile"] = async (file) => {
 };
 
 const acceptJoin = computed(() => {
-  return props.accept.join(", .");
+  let acceptJoin = props.accept.join(", .");
+  return "." + acceptJoin;
 });
 
 // 处理图片格式
@@ -589,6 +602,7 @@ onMounted(() => {
   width: v-bind(computedWidth) !important;
   height: v-bind(computedHeight) !important;
   padding: 0 !important;
+  border: none !important;
 }
 :deep(.ant-upload-list-item-container) {
   width: v-bind(computedWidth) !important;
