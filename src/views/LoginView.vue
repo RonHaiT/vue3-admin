@@ -1,7 +1,6 @@
 <script setup lang="ts"></script>
-
 <template>
-  <RouterView />
+  <div>登录页面</div>
 </template>
 
 <style scoped lang="less"></style>
