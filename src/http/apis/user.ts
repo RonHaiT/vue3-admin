@@ -1,4 +1,9 @@
-// apis/user.ts
+
+/**import qs from 'qs';
+ * axios将 JavaScript 对象序列化为 JSON 。 要以application/x-www-form-urlencoded格式发送数据,使用qs库转换
+ * let params = qs.stringify({ 'a': 1, b: '2' })
+ */
+
 import request from "../request";
 
 // 获取用户信息
@@ -7,8 +12,8 @@ export const getUserInfo = () => {
 };
 
 // 登录
-export const login = (data: LoginParams) => {
-    return request.post("/user/login", data);
+export const authLogin = (data: LoginParams) => {
+    return request.post<LoginParams, { data: 0 }>("/auth/oauth/token", data);
 };
 // 获取上传七牛token
 export const qiNiuToken = () => {

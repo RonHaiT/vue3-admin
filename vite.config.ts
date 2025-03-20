@@ -9,7 +9,13 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('box-icon') // 告诉 Vue 这是一个原生组件
+        }
+      }
+    }),
     vueDevTools(),
     AutoImport({
       imports: ['vue', 'vue-router'],
@@ -29,4 +35,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // 代理配置
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://cqgxq.matchn.cn/cqgxq-api",
+        changeOrigin: true,
+        prependPath: true,
+      }
+    }
+  }
 })

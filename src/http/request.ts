@@ -1,9 +1,9 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { message } from 'ant-design-vue';
-import { useUserStore } from '~/stores/user';
+import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { authLogin } from '~/http/apis/user';
-
+import { authLogin } from '@/http/apis/user';
+import config from '@/http/config'
 enum TokenType {
     pwd = 'pwd',
     sms = 'sms',
@@ -21,11 +21,7 @@ class Http {
         this.userStore = userStore;
         this.router = useRouter();
 
-        this.instance = axios.create({
-            baseURL: import.meta.env.VITE_BASE_API, // 读取 .env 配置
-            timeout: 10000,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        this.instance = axios.create(config);
 
         this.setupInterceptors();
     }
@@ -141,5 +137,5 @@ class Http {
         }
     }
 }
-
-export default Http;
+const request = new Http(useUserStore());
+export default request;
