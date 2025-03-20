@@ -7,6 +7,10 @@ export const getUserInfo = () => {
 };
 
 // 登录
-export const login = (data: { username: string; password: string }) => {
+export const login = (data: LoginParams) => {
     return request.post("/user/login", data);
+};
+// 获取上传七牛token
+export const qiNiuToken = () => {
+    return request.get("/match/noAuth/file/getUpToken");
 };

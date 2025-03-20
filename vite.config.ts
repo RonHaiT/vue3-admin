@@ -11,7 +11,11 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-    AutoImport({ imports: ['vue', 'vue-router'] }),
+    AutoImport({
+      imports: ['vue', 'vue-router'],
+      dirs: ['src/types'],
+      eslintrc: { enabled: true },
+    }),
     Components({
       resolvers: [
         AntDesignVueResolver({

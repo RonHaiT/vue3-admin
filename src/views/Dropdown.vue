@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
 import { DownOutlined } from "@ant-design/icons-vue";
 let year = ref(String(new Date().getFullYear()));
 let yearsArray = ref<string[]>([]);

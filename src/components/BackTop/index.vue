@@ -1,8 +1,6 @@
 <script setup lang="ts"></script>
-
 <template>
-  <box-icon type="logo" name="facebook-square"></box-icon>
-  <RouterView />
+  <div>道吧官网返回顶部</div>
 </template>
 
 <style scoped lang="less"></style>

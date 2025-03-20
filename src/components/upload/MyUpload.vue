@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getUploadToken } from "~/http/apis/match";
+// import { getUploadToken } from "~/http/apis/match";
 import * as imageConversion from "image-conversion";
 import * as qiniu from "qiniu-js";
 import { Upload } from "ant-design-vue";
@@ -20,7 +20,7 @@ const props = defineProps({
   cutImg: { type: Boolean, default: false }, // 是否要裁剪图片
   width: { type: Number, default: 100 }, //显示的宽
   height: { type: Number, default: 100 }, //显示的高
-  accept: { type: Array, default: () => ["image/*"] }, //处理的类型
+  accept: { type: Array<String>, default: () => ["image/*"] }, //处理的类型
   isFile: { type: Boolean, default: false }, // 是否为文件
   cutWidth: { type: Number, default: 200 }, // 裁剪宽
   cutHeight: { type: Number, default: 200 }, // 裁剪高
@@ -330,8 +330,20 @@ const previewFile: UploadProps["previewFile"] = async (file) => {
 };
 
 const acceptJoin = computed(() => {
-  let acceptJoin = props.accept.join(", .");
-  return "." + acceptJoin;
+  let ary = new Array<String>();
+  props.accept.forEach((item) => {
+    if (!item.startsWith(".") && item.indexOf("/") == 0) {
+      ary.push("." + item);
+    } else {
+      ary.push(item);
+    }
+  });
+  console.log("accept", ary);
+
+  return ary.join(",");
+  // let acceptJoin = props.accept.join(", .");
+  // return "." + acceptJoin;
+  // return props.accept
 });
 
 // 处理图片格式
