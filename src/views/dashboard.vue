@@ -75,12 +75,12 @@ const handleSetting = () => {
           marginBottom: '10px',
         }"
       >
-        <img
+        <!-- <img
           class="img"
           src="@/assets/images/logo.jpg"
           alt=""
           style="width: 40px; height: 40px; border-radius: 50%"
-        />
+        /> -->
         <div v-if="!authStore.collapsed" class="title">糖谷管理系统</div>
       </div>
       <!-- 菜单  -->

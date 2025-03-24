@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import http from '@/apis/index'
-import type { UserObj, } from '@/apis/module/user/types'
-import type { MenuObj } from '@/apis/module/menu/types'
+import http from '@/http/index'
+import type { UserObj, } from '@/http/module/user/types'
+import type { MenuObj } from '@/http/module/menu/types'
 import { message } from 'ant-design-vue';
 import router from '@/router';
 

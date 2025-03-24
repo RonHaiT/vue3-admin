@@ -1,6 +1,16 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-imports.d.ts"],
+  "include": [
+    "types/**/*.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    // 自动导包配置，导入vue和vue-router
+    "auto-imports.d.ts",
+    //vite环境变量
+    "vite/**/*.ts",
+    //接口地址类型
+    "src/http/**/*.d.ts"
+  ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
