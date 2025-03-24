@@ -8,7 +8,7 @@ const manualRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Dashboard',
-    component: () => import('@/views/dashboard.vue'),
+    component: () => import('@/views/Dashboard.vue'),
   },
 
   {
